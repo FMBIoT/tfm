@@ -1,0 +1,76 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: tfm-node
+spec:
+  type: NodePort #NodePort
+  selector:
+    type: tfm
+    tier: node
+  ports:
+    - port: 1880
+      nodePort: 30180
+      name: agent
+      targetPort: 1880
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tfm-node
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      type: tfm
+      tier: node
+  template:
+    metadata:
+      labels:
+        type: tfm
+        tier: node
+    spec:
+      containers:
+        - name: tfm-node
+          image: node-red-tfm
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: pv-node
+              mountPath: /data
+          securityContext:
+            capabilities:
+              add:
+                - NET_ADMIN
+                - SYS_MODULE
+            privileged: true
+      volumes:
+        - name: pv-node
+          persistentVolumeClaim:
+            claimName: pv-node
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-volume-node
+  labels:
+    type: local
+spec:
+  storageClassName: node
+  capacity:
+    storage: 100Mi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/media/node/"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pv-filestorage
+spec:
+  storageClassName: node
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 100Mi
+

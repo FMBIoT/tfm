@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: tfm-api
+spec:
+  type: NodePort #NodePort
+  selector:
+    type: tfm
+    tier: api
+  ports:
+    - port: 3000
+      nodePort: 30000
+      name: api
+      targetPort: 3000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tfm-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      type: tfm
+      tier: api
+  template:
+    metadata:
+      labels:
+        type: tfm
+        tier: api
+    spec:
+      containers:
+        - name: tfm-api
+          image: tfm-api
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3000
+          env:
+          - name: MYSQL_USER
+            value: user
+          - name: MYSQL_PASSWORD
+            value: password
+          - name: MYSQL_HOST
+            value: mysql-tfm
+          - name: MYSQL_DB
+            value: tfm
