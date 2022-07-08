@@ -31,8 +31,13 @@ spec:
     spec:
       containers:
         - name: tfm-node
-          image: node-red-tfm
+          image: adamhancock/node-red
           imagePullPolicy: IfNotPresent
+          env:
+            - name: PGID
+              value: "1000"
+            - name: PUID
+              value: "1000"
           volumeMounts:
             - name: pv-node
               mountPath: /data
@@ -65,7 +70,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: pv-filestorage
+  name: pv-node
 spec:
   storageClassName: node
   accessModes:
