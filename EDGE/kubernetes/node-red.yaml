@@ -31,8 +31,13 @@ spec:
     spec:
       containers:
         - name: tfm-node
-          image: node-red-tfm
+          image: nodered/node-red
           imagePullPolicy: IfNotPresent
+          env:
+            - name: PGID
+              value: "1000"
+            - name: PUID
+              value: "1000"
           volumeMounts:
             - name: pv-node
               mountPath: /data
@@ -41,7 +46,15 @@ spec:
               add:
                 - NET_ADMIN
                 - SYS_MODULE
-            privileged: true
+            privileged: false
+          resources:
+            limits:
+              smarter-devices/ttyUSB0: 2
+              memory: 512Mi
+            requests:
+              smarter-devices/ttyUSB0: 2
+              cpu: 10m
+              memory: 50Mi
       volumes:
         - name: pv-node
           persistentVolumeClaim:
@@ -65,7 +78,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: pv-filestorage
+  name: pv-node
 spec:
   storageClassName: node
   accessModes:
