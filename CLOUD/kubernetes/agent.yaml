@@ -9,7 +9,7 @@ spec:
     tier: agent
   ports:
     - port: 8880
-      nodePort: 38880
+      nodePort: 30880
       name: agent
       targetPort: 8880
 ---
@@ -37,6 +37,6 @@ spec:
             - containerPort: 8880
           env:
           - name: FIWARE_HOST
-            value: localhost
+            value: orion
           - name: FIWARE_PORT
-            value: 1026
+            value: '1026'

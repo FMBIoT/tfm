@@ -1,4 +1,4 @@
-FROM python:3.7
-RUN pip3 install pyngsi
+FROM python:3.8.3-slim-buster
+RUN pip install pyngsi
 COPY agent.py /agent.py
 CMD python agent.py

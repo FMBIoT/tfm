@@ -30,7 +30,7 @@ def main():
 
     # If you have an Orion server available, just replace SinkStdout() with SinkOrion()
     # sink = SinkOrion(FIWARE_HOST,FIWARE_PORT)
-    sink = SinkOrion('localhosta',1026)
+    sink = SinkOrion(FIWARE_HOST,FIWARE_PORT)
 
     # The agent processes JSON content received from the client
     agent = NgsiAgent.create_agent(src, sink, process=build_entity)
