@@ -1,0 +1,3 @@
+curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server --kubelet-arg="feature-gates=DevicePlugins=true"" sh -s - --docker
+sudo chown -R 1000:1000 /media/node
+chmod a+rw /dev/ttyUSB0
