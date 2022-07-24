@@ -49,10 +49,10 @@ spec:
             privileged: false
           resources:
             limits:
-              smarter-devices/ttyUSB0: 2
+              # smarter-devices/ttyUSB0: 2
               memory: 512Mi
             requests:
-              smarter-devices/ttyUSB0: 2
+              # smarter-devices/ttyUSB0: 2
               cpu: 10m
               memory: 50Mi
       volumes:

@@ -1,0 +1,104 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    io.kompose.service: fiware-keyrock
+  name: fiware-keyrock
+spec:
+  ports:
+    - name: "3443"
+      port: 3443
+      targetPort: 443
+  selector:
+    io.kompose.service: fiware-keyrock
+status:
+  loadBalancer: {}
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: fiware-keyrock
+  name: fiware-keyrock
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: fiware-keyrock
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        io.kompose.network/main: "true"
+        io.kompose.network/mysql: "true"
+        io.kompose.service: fiware-keyrock
+    spec:
+      containers:
+        - env:
+            - name: DEBUG
+              value: idm:*
+            - name: IDM_AUTHZFORCE_ENABLED
+              value: "false"
+            - name: IDM_CORS_ENABLED
+              value: "true"
+            - name: IDM_DB_HOST
+              value: mysql-keyrock
+            - name: IDM_HOST
+              value: https://localhost
+            - name: IDM_HTTPS_ENABLED
+              value: "true"
+            - name: IDM_PDP_LEVEL
+              value: basic
+            - name: IDM_PORT
+              value: "3443"
+          image: fiware/idm:7.8.2
+          name: fiware-keyrock
+          ports:
+            - containerPort: 443
+          resources: {}
+          envFrom:
+          - secretRef:
+              name: keyrock-secrets
+          volumeMounts:
+            - mountPath: /opt/fiware-idm/certs
+              name: fiware-keyrock-claim0
+      restartPolicy: Always
+      volumes:
+        - name: fiware-keyrock-claim0
+          persistentVolumeClaim:
+            claimName: fiware-keyrock-claim0
+status: {}
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-volume-keyrock
+  labels:
+    type: local
+spec:
+  storageClassName: idm
+  capacity:
+    storage: 100Mi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/media/certs/keyrock"
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: fiware-keyrock-claim0
+spec:
+  storageClassName: idm
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
+status: {}
+
+

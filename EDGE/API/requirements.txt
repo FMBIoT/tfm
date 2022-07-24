@@ -1,2 +1,4 @@
 flask
-flask-mysqldb
+peewee
+pymysql
+requests

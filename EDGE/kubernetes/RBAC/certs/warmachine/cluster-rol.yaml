@@ -1,0 +1,18 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: security
+rules:
+- apiGroups: [""]
+  resources: ["secrets","configmaps","services"]
+  verbs: ["get", "watch", "list"]
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["create", "watch", "list","get","edit"]
+- apiGroups: [""]
+  resources: ["nodes"]
+  verbs: ["watch", "list","get","edit"]
+- apiGroups: [""]
+  resources: ["validatingwebhookconfigurations"]
+  verbs: ["create", "watch", "list","get","edit"]
+

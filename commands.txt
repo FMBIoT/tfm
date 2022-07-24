@@ -1,3 +1,30 @@
 curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server --kubelet-arg="feature-gates=DevicePlugins=true"" sh -s - --docker
 sudo chown -R 1000:1000 /media/node
 chmod a+rw /dev/ttyUSB0
+
+kubectl api-resources
+kubectl get clusterroles
+
+
+
+openssl genrsa -out madamemasque.key 2048
+openssl req -new -key madamemasque.key -out madamemasque.csr
+
+cat <<EOF | kubectl apply -f -
+apiVersion: certificates.k8s.io/v1
+kind: CertificateSigningRequest
+metadata:
+  name: madamemasque
+spec:
+  request: $(cat madamemasque.csr | base64 | tr -d "\n")
+  signerName: kubernetes.io/kube-apiserver-client
+  expirationSeconds: 86400  # one day
+  usages:
+  - client auth
+EOF
+
+kubectl certificate approve madamemasque
+kubectl get csr madamemasque -o jsonpath='{.status.certificate}'| base64 -d > madamemasque.crt
+kubectl config set-credentials madamemasque --client-key=madamemasque.key --client-certificate=madamemasque.crt --embed-certs=true
+kubectl config set-context madamemasque --cluster=kubernetes --user=madamemasque
+

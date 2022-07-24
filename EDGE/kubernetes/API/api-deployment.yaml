@@ -35,12 +35,6 @@ spec:
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 3000
-          env:
-          - name: MYSQL_USER
-            value: user
-          - name: MYSQL_PASSWORD
-            value: password
-          - name: MYSQL_HOST
-            value: mysql-tfm
-          - name: MYSQL_DB
-            value: tfm
+          envFrom:
+          - secretRef:
+              name: api-secrets

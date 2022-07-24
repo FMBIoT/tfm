@@ -18,6 +18,7 @@ def build_entity(row: Row) -> DataModel:
     m = DataModel(id=r['source'], type="variador-error") 
     m.add("source", r['source'])
     m.add("description",  "Data taken from"+ r['source'])
+    m.add("section", r['section'])
     m.add("registro", r['registry'])
     m.add("valor",r['value'])
     print(m)

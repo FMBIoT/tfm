@@ -1,0 +1,17 @@
+daemonset:
+  extraEnvs: []
+filebeatConfig:
+    filebeat.yml: |
+      filebeat.inputs:
+      - type: filestream
+        id: my-filestream-id
+        paths:
+          - /var/log/kubernetes/audit/audit.log
+        parsers:
+          - ndjson:
+              keys_under_root: true
+      output.elasticsearch:
+        hosts: ["192.168.250.232:32515"]
+        protocol: http
+tolerations:
+- operator: "Exists"
