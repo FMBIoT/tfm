@@ -1,0 +1,81 @@
+<!-- ============================================================== -->
+<!-- Main wrapper - style you can find in pages.scss -->
+<!-- ============================================================== -->
+<div
+  id="main-wrapper"
+  [ngClass]="{ 'show-sidebar': showMobileMenu }"
+  dir="ltr"
+  data-theme="light"
+  data-layout="vertical"
+  [attr.data-sidebartype]="sidebartype"
+  data-sidebar-position="absolute"
+  data-boxed-layout="full"
+>
+  <!-- ============================================================== -->
+  <!-- Topbar header - style you can find in topbar.scss -->
+  <!-- ============================================================== -->
+  <header class="topbar" data-navbarbg="skin6">
+    <nav class="sb-topnav navbar navbar-expand header">
+      <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+          <div class="input-group">
+  
+          </div>
+      </form>
+      <!-- Navbar-->
+  </nav>
+  </header>
+  <!-- ============================================================== -->
+  <!-- Left Sidebar - style you can find in sidebar.scss  -->
+  <!-- ============================================================== -->
+  <aside
+    class="left-sidebar left-bar"
+    data-sidebarbg="skin1"
+    (mouseover)="Logo()"
+    (mouseout)="Logo()"
+  >
+    <!-- Sidebar scroll-->
+    <div class = "header-bar">
+      <div class= "logo"></div>
+    </div>
+    <div class="scroll-sidebar" [perfectScrollbar]="config">
+      <app-sidebar></app-sidebar>
+    </div>
+    <!-- End Sidebar scroll-->
+  </aside>
+  <!-- ============================================================== -->
+  <!-- End Left Sidebar - style you can find in sidebar.scss  -->
+  <!-- ============================================================== -->
+  <!-- ============================================================== -->
+  <!-- Page wrapper  -->
+  <!-- ============================================================== -->
+  <div class="page-wrapper">
+    <!-- ============================================================== -->
+    <!-- Container fluid  -->
+    <!-- ============================================================== -->
+    <app-breadcrumb></app-breadcrumb>
+    <div class="container-fluid">
+      <!-- ============================================================== -->
+      <!-- Start Page Content -->
+      <!-- ============================================================== -->
+      <router-outlet></router-outlet>
+      <!-- ============================================================== -->
+      <!-- End Start Page Content -->
+      <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Container fluid  -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- footer -->
+    <!-- ============================================================== -->
+    <footer class="footer text-center">
+      Dataports
+    </footer>
+    <!-- ============================================================== -->
+    <!-- End footer -->
+    <!-- ============================================================== -->
+  </div>
+  <!-- ============================================================== -->
+  <!-- End Page wrapper  -->
+  <!-- ============================================================== -->
+</div>

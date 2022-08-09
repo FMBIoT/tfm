@@ -1,0 +1,14 @@
+
+<nav class="sidebar-nav pt-6">
+    <ul id="sidebarnav ">
+        <!-- First level menu -->
+        <li class="sidebar-item menu-element" *ngFor="let sidebarnavItem of sidebarnavItems">
+            <div class="nav-small-cap " *ngIf="sidebarnavItem.extralink === true">{{sidebarnavItem.title}}</div>
+            <a class="sidebar-link waves-effect waves-dark" [routerLink]="sidebarnavItem.class === '' ? [sidebarnavItem.path] : null"
+                *ngIf="!sidebarnavItem.extralink;">
+                <i [ngClass]="[sidebarnavItem.icon]"></i>
+                <span class="hide-menu">{{sidebarnavItem.title}}</span>
+            </a>
+        </li>
+    </ul>
+</nav>

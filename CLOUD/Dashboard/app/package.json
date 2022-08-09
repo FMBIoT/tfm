@@ -1,0 +1,24 @@
+{
+  "name": "dataports-demo",
+  "version": "1.0.0",
+  "description": "Aplicacion del proyecto sobre IoT para la asignatura SCO del MUCC de la UPV",
+  "main": "index.js",
+  "scripts": {
+    "postinstall": "run-p install:server install:client",
+    "install:server": "cd server && npm install",
+    "install:client": "cd client && npm install",
+    "build": "cd client && npm run build",
+    "start": "cd server && npm run start",
+    "dev": "cd server && npm run dev"
+  },
+  "keywords": [
+    "IoT",
+    "NodeJS",
+    "Angular"
+  ],
+  "author": "Francisco Mahedero Biot",
+  "license": "ISC",
+  "devDependencies": {
+    "npm-run-all": "^4.0.2"
+  }
+}

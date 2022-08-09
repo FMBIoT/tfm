@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.network/sco-network: "true"
+    io.kompose.service: app
+  name: dashboard
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      type: dashboard
+      tier: cloud
+  template:
+    metadata:
+      labels:
+        type: dashboard
+        tier: cloud
+    spec:
+      containers:
+        - env:
+            - name: CB_HOST
+              value: "orion"
+            - name: IP_HOST
+              value: "dashboard"
+            - name: PORT
+              value: "5000"
+          image: dashboard-tfm
+          name: dashboard-tfm
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5001
+            - containerPort: 5000
+          resources: {}
+      #     volumeMounts:
+      #       - mountPath: /usr/src/app
+      #         name: app-claim0
+      #       - mountPath: /root/.npm
+      #         name: app-npm-cache
+      #       - mountPath: /usr/src/app/node_modules
+      #         name: app-node-modules
+      #       - mountPath: /usr/src/app/server/node_modules
+      #         name: app-node-modules-server
+      #       - mountPath: /usr/src/app/client/node_modules
+      #         name: app-node-modules-client
+      #       - mountPath: /usr/src/app/client/dist
+      #         name: app-dist-client
+      # volumes:
+      #   - name: app-claim0
+      #     persistentVolumeClaim:
+      #       claimName: app-claim0
+      #   - name: app-npm-cache
+      #     persistentVolumeClaim:
+      #       claimName: app-npm-cache
+      #   - name: app-node-modules
+      #     persistentVolumeClaim:
+      #       claimName: app-node-modules
+      #   - name: app-node-modules-server
+      #     persistentVolumeClaim:
+      #       claimName: app-node-modules-server
+      #   - name: app-node-modules-client
+      #     persistentVolumeClaim:
+      #       claimName: app-node-modules-client
+      #   - name: app-dist-client
+      #     persistentVolumeClaim:
+      #       claimName: app-dist-client
+status: {}

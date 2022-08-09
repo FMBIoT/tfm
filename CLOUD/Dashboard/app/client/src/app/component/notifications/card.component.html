@@ -1,0 +1,38 @@
+<div class="card">
+  <div class="card-header">Real-time Data</div>
+  <div class="card-body">
+      <form >
+          <table class="table table-striped text-center fs">
+      
+                  <thead class="thead-vessel">
+                    <tr>
+                      <!-- <th scope="col"></th> -->
+                      <th scope="col">Type</th>
+                      <th scope="col">Id</th>
+                      <th scope="col">Registry</th>
+                      <th scope="col">Value</th>
+
+                      <!-- <th scope="col">Time of arrival</th>
+                      <th scope="col">Departure time</th> -->
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr id="fade" *ngFor="let dato of activityUsera.reverse() | paginate: { itemsPerPage: 10, currentPage: p }">
+                      <!-- <th scope="row">{{country.id}}</th> -->
+                      <td >{{dato.type}}</td>
+                      <td >{{dato.id}}</td>
+                      <td >{{dato.registry}}</td>
+                      <td >{{dato.value}}</td>
+
+                      <!-- <td> {{usuario.humidity}}</td>         -->
+                    </tr>
+                  </tbody>
+          </table>
+          <pagination-controls (pageChange)="p = $event"></pagination-controls>
+          <button type="button" (click)="clear()" class="btn btn-primary">Clear</button>
+
+      </form>
+  </div>
+</div>
+
+

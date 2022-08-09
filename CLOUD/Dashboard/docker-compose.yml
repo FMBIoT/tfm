@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  # APP
+  app:
+    build: ./app/
+#    restart: "no"
+    restart: on-failure
+    image: dataports/app
+    container_name: dataports.app
+    networks:
+      - sco-network
+    ports:
+      - 5001:5001
+      - ${APP_PORT}:${APP_PORT}
+    volumes:
+      - ./app/:/usr/src/app:cached
+      - app_npm_cache:/root/.npm:delegated
+      - app_node_modules:/usr/src/app/node_modules:delegated
+      - app_node_modules_server:/usr/src/app/server/node_modules:delegated
+      - app_node_modules_client:/usr/src/app/client/node_modules:delegated
+      - app_dist_client:/usr/src/app/client/dist:delegated
+    environment:
+      - PORT=${APP_PORT}
+      - IP_HOST=${IP_HOST}
+      - CB_HOST=${CB_HOST}
+
+networks:
+  sco-network:
+    driver: bridge
+
+volumes:
+  app_npm_cache:
+  app_node_modules:
+  app_node_modules_server:
+  app_node_modules_client:
+  app_dist_client:
